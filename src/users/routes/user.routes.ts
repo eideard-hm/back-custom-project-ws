@@ -13,10 +13,10 @@ router.get('/', async (req: Request, res: Response) => {
 
 // create new user
 router.post('/', async (req: Request, res: Response) => {
-  const newUserData = req.body as User;
+  const newUserData = req.body as User[];
 
   const newUserCreated = await createUser(newUserData);
-  res.json({ newUserCreated });
+  res.json({ usersCreated: newUserCreated });
 });
 
 export default router;
