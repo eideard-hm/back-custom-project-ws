@@ -1,22 +1,16 @@
-import { PrismaClient } from '@prisma/client';
-import { type Request, type Response, Router } from 'express';
+import { Router, type Request, type Response } from 'express';
 
-import { ILoginData } from '../models';
+import { loginUser } from '../controllers';
+import type { ILoginData } from '../types';
 
 const router = Router();
-const prisma = new PrismaClient();
 
-// get all users
-router.get('/users', async (req: Request, res: Response) => {
-  const users = await prisma.user.findMany();
-  res.json({ users });
-});
+router.post('/login', async (req: Request, res: Response) => {
+  const credentails = req.body as ILoginData;
 
-router.post('/login', (req: Request, res: Response) => {
-  const { email, password } = req.body as ILoginData;
+  const userExists = await loginUser(credentails);
 
-  console.log({ email, password });
-  res.json({ login: true });
+  res.json({ login: userExists });
 });
 
 export default router;

@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 
 import authRouter from './auth/routes/auth.routes';
+import userRouter from './users/routes/user.routes'
 
 const app = express();
 
@@ -16,5 +17,8 @@ app.get('/', (req, res) => {
 
 // auth routes
 app.use('/auth', authRouter);
+
+// user routes
+app.use('/user', userRouter)
 
 export default app;
