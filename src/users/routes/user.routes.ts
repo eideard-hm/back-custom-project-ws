@@ -1,7 +1,7 @@
 import { Router, type Request, type Response } from 'express';
 
 import { createUser, getAllUsers } from '../controllers';
-import type { User } from '../types';
+import type { UserCreateInput } from '../types';
 
 const router = Router();
 
@@ -13,7 +13,7 @@ router.get('/', async (req: Request, res: Response) => {
 
 // create new user
 router.post('/', async (req: Request, res: Response) => {
-  const newUserData = req.body as User[];
+  const newUserData = req.body as UserCreateInput[];
 
   const newUserCreated = await createUser(newUserData);
   res.json({ usersCreated: newUserCreated });
