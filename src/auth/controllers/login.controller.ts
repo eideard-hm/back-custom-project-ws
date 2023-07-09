@@ -1,25 +1,25 @@
 import { prisma } from '../../prisma';
 import { comparePassword } from '../../utils';
-import type { ILoginData } from '../types';
+import type { ILoginData, LoginCredentials } from '../types';
 
 export const loginUser = async (credentials: ILoginData): Promise<boolean> => {
   try {
     const { email, password } = credentials;
 
-    const res: ILoginData | null = await prisma.user.findFirstOrThrow({
+    const res: LoginCredentials | null = await prisma.users.findFirstOrThrow({
       where: {
-        email,
+        Email: email,
       },
       select: {
-        email: true,
-        password: true,
+        Email: true,
+        PasswordHash: true,
       },
     });
 
     if (res == null) return false;
 
     // passwords are equals
-    const passwordsAreEquals = await comparePassword(password ?? '', res.password);
+    const passwordsAreEquals = await comparePassword(password ?? '', res.PasswordHash);
     if (!passwordsAreEquals) return false;
 
     return true;

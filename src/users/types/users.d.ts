@@ -1,5 +1,5 @@
 import { Prisma } from '@prisma/client';
 
-type UserCreateInput = Prisma.UserCreateInput
+type UserCreateInput = Prisma.UsersCreateInput;
 
-type UserSelect = Prisma.UserSelect;
+type UserSelect = Prisma.UsersSelect;
