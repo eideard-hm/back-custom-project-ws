@@ -5,4 +5,12 @@ export interface ILoginData {
   password: string;
 }
 
-type LoginCredentials = Pick<Prisma.UsersUncheckedCreateWithoutShipmentOrdersInput, 'Email' | 'PasswordHash'>
+export type LoginCredentials = Pick<
+  Prisma.UsersUncheckedCreateWithoutShipmentOrdersInput,
+  'Email' | 'PasswordHash' | 'Id'
+>;
+
+export interface ILoginResponse {
+  loginSuccess: boolean;
+  userId: string;
+}

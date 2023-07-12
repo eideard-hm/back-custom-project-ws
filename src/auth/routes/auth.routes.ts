@@ -7,10 +7,10 @@ const router = Router();
 
 router.post('/login', async (req: Request, res: Response) => {
   const credentails = req.body as ILoginData;
-  
+
   const userExists = await loginUser(credentails);
 
-  res.json({ login: userExists });
+  res.json(userExists);
 });
 
 export default router;
