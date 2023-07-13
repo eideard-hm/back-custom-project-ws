@@ -1,21 +1,12 @@
-import { prisma } from '../../prisma';
 import { comparePassword } from '../../utils';
-import type { ILoginData, ILoginResponse, LoginCredentials } from '../types';
+import { verifyLoginUser } from '../services';
+import type { ILoginData, ILoginResponse } from '../types';
 
 export const loginUser = async (credentials: ILoginData): Promise<ILoginResponse> => {
   try {
     const { email, password } = credentials;
 
-    const res: LoginCredentials | null = await prisma.users.findFirstOrThrow({
-      where: {
-        Email: email,
-      },
-      select: {
-        Id: true,
-        Email: true,
-        PasswordHash: true,
-      },
-    });
+    const res = await verifyLoginUser(email);
 
     if (res == null) return { loginSuccess: false, userId: '' };
 
