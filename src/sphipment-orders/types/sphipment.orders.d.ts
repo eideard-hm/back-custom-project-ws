@@ -5,3 +5,5 @@ export type ShipmentOrdersCreateInput = Prisma.ShipmentOrdersUncheckedCreateInpu
 export type ShipmentOrdersCreateResponse = Prisma.Prisma__ShipmentOrdersClient<{
   Id: number;
 }>;
+
+export type ShipmentOrders = Prisma.ShipmentOrders;

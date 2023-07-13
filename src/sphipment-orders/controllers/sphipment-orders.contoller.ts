@@ -1,5 +1,5 @@
-import { createShipmentOrdersAsync } from '../services';
-import type { ShipmentOrdersCreateInput, ShipmentOrdersCreateResponse } from '../types';
+import { createShipmentOrdersAsync, retrieveAllShipmentOrdersAsync } from '../services';
+import type { ShipmentOrders, ShipmentOrdersCreateInput, ShipmentOrdersCreateResponse } from '../types';
 
 export const createShipmentOrders = async (input: ShipmentOrdersCreateInput): Promise<ShipmentOrdersCreateResponse> => {
   try {
@@ -10,5 +10,16 @@ export const createShipmentOrders = async (input: ShipmentOrdersCreateInput): Pr
   } catch (error) {
     console.error(error);
     return { Id: 0 };
+  }
+};
+
+export const getAllShipmentOrdersAsync = async (userId: string): Promise<ShipmentOrders[]> => {
+  try {
+    if (!userId) return [];
+
+    return await retrieveAllShipmentOrdersAsync(userId);
+  } catch (error) {
+    console.error(error);
+    return [];
   }
 };
