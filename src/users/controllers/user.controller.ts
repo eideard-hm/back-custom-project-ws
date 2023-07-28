@@ -1,14 +1,13 @@
 import { prisma } from '../../prisma';
-import { encryptPassword } from '../../utils';
+import { encryptPasswordSync } from '../../utils';
 import type { UserCreateInput } from '../types';
 
-const hashPassword = async (users: UserCreateInput[]): Promise<UserCreateInput[]> => {
-  return await Promise.all(users.map(async (user) => ({ ...user, PasswordHash: await encryptPassword(user.PasswordHash) })));
-};
+const hashPassword = (users: UserCreateInput[]): UserCreateInput[] =>
+  users.map((user) => ({ ...user, PasswordHash: encryptPasswordSync(user.PasswordHash) }));
 
 export const createUser = async (user: UserCreateInput[]): Promise<number> => {
   try {
-    const usersToSave = await hashPassword(user);
+    const usersToSave = hashPassword(user);
     const { count } = await prisma.users.createMany({
       data: usersToSave,
       skipDuplicates: true,
