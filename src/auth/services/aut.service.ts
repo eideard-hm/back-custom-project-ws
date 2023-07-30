@@ -10,6 +10,9 @@ export const verifyLoginUser = async (email: string): Promise<LoginCredentials |
       Id: true,
       Email: true,
       PasswordHash: true,
+      DocumentType: true,
+      FirstName: true,
+      LastName: true
     },
   });
 };

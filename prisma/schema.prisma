@@ -37,5 +37,16 @@ model Users {
   DocumentId     String?          @db.VarChar(20)
   Active         Boolean          @default(dbgenerated("b'1'")) @db.Bit(1)
   PasswordHash   String           @db.VarChar(2000)
+  MessageId      String?          @db.Char(36)
   ShipmentOrders ShipmentOrders[]
+  Message        Message?         @relation(fields: [MessageId], references: [Id], onDelete: Restrict, onUpdate: NoAction, map: "ShipmentOrders_MessageId_FK")
+
+  @@index([MessageId], map: "ShipmentOrders_MessageId_FK")
+}
+
+model Message {
+  Id           String  @id @db.Char(36)
+  TitleMeesage String  @unique(map: "IX_Message_title") @db.VarChar(200)
+  LastMessage  String  @db.VarChar(200)
+  Users        Users[]
 }

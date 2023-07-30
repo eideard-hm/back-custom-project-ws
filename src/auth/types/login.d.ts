@@ -7,10 +7,16 @@ export interface ILoginData {
 
 export type LoginCredentials = Pick<
   Prisma.UsersUncheckedCreateWithoutShipmentOrdersInput,
-  'Email' | 'PasswordHash' | 'Id'
+  'Email' | 'PasswordHash' | 'Id' | 'FirstName' | 'LastName' | 'DocumentType'
 >;
 
 export interface ILoginResponse {
   loginSuccess: boolean;
+  userData: IUserDataLogin;
+}
+
+export interface IUserDataLogin {
   userId: string;
+  fullName: string;
+  town: string;
 }
