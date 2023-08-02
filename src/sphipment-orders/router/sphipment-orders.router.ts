@@ -13,7 +13,7 @@ router.post('/', async (req: Request, res: Response) => {
 
 router.get('/:userId', async (req: Request, res: Response) => {
   const userId = req.params['userId'];
-  const shipments = await getAllShipmentOrdersAsync(userId);
+  const shipments = await getAllShipmentOrdersAsync(Number(userId));
   res.send(shipments);
 });
 

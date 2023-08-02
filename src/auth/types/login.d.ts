@@ -16,7 +16,7 @@ export interface ILoginResponse {
 }
 
 export interface IUserDataLogin {
-  userId: string;
+  userId: number;
   fullName: string;
   town: string;
 }

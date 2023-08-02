@@ -8,45 +8,77 @@ datasource db {
 }
 
 model ShipmentOrders {
-  Id           BigInt    @id @unique(map: "IX_ShipmentOrders_Id") @default(autoincrement())
-  FirstName    String    @db.VarChar(200)
-  LastName     String    @db.VarChar(200)
-  Email        String?   @db.VarChar(500)
-  Phone        String?   @db.VarChar(10)
-  FromCityCode String    @db.VarChar(5)
-  BirthDate    DateTime? @db.DateTime(0)
-  DocumentType String?   @db.VarChar(5)
-  DocumentId   String?   @db.VarChar(20)
-  SexId        String    @db.Char(36)
-  Ubication    String    @db.Char(36)
-  Sidewalk     String    @db.VarChar(200)
-  Need         String?   @db.VarChar(200)
-  ModifyUserId String?   @db.Char(36)
-  Users        Users?    @relation(fields: [ModifyUserId], references: [Id], onDelete: Restrict, onUpdate: NoAction, map: "ShipmentOrders_ModifyUserId_FK")
+  Id           BigInt       @id @unique(map: "IX_ShipmentOrders_Id") @default(autoincrement())
+  FirstName    String       @db.VarChar(200)
+  LastName     String       @db.VarChar(200)
+  Email        String?      @db.VarChar(500)
+  Phone        String?      @db.VarChar(10)
+  HouseId      BigInt?
+  BirthDate    DateTime?    @db.DateTime(0)
+  DocumentType String?      @db.VarChar(5)
+  DocumentId   String?      @db.VarChar(20)
+  SexId        BigInt
+  ServicesId   BigInt
+  Sidewalk     String       @db.VarChar(200)
+  Need         String?      @db.VarChar(200)
+  ModifyUserId BigInt
+  NaturalHose  NaturalHose? @relation(fields: [HouseId], references: [Id], onDelete: Restrict, onUpdate: NoAction, map: "House_From_FK")
+  Services     Services     @relation(fields: [ServicesId], references: [Id], onUpdate: NoAction, map: "ServicesId_FK")
+  Sex          Sex          @relation(fields: [SexId], references: [Id], onUpdate: NoAction, map: "ShipmentOrders_ModifySexId_FK")
+  Users        Users        @relation(fields: [ModifyUserId], references: [Id], onUpdate: NoAction, map: "ShipmentOrders_ModifyUserId_FK")
 
   @@index([ModifyUserId], map: "IX_ShipmentOrders_ModifyUserId")
+  @@index([HouseId], map: "House_From_FK")
+  @@index([ServicesId], map: "ServicesId_FK")
+  @@index([SexId], map: "ShipmentOrders_ModifySexId_FK")
 }
 
 model Users {
-  Id             String           @id @unique(map: "IX_Users_Id") @db.Char(36)
+  Id             BigInt           @id @unique(map: "IX_Users_Id") @default(autoincrement())
   FirstName      String           @db.VarChar(200)
   LastName       String           @db.VarChar(200)
-  Email          String           @unique(map: "IX_Users_Email") @db.VarChar(500)
+  Email          String           @db.VarChar(500)
   Phone          String?          @db.VarChar(10)
-  DocumentType   String?          @db.VarChar(5)
+  DocumentType   String?          @db.VarChar(20)
   DocumentId     String?          @db.VarChar(20)
   Active         Boolean          @default(dbgenerated("b'1'")) @db.Bit(1)
   PasswordHash   String           @db.VarChar(2000)
-  MessageId      String?          @db.Char(36)
+  Services       Services[]
   ShipmentOrders ShipmentOrders[]
-  Message        Message?         @relation(fields: [MessageId], references: [Id], onDelete: Restrict, onUpdate: NoAction, map: "ShipmentOrders_MessageId_FK")
-
-  @@index([MessageId], map: "ShipmentOrders_MessageId_FK")
 }
 
-model Message {
-  Id           String  @id @db.Char(36)
-  TitleMeesage String  @unique(map: "IX_Message_title") @db.VarChar(200)
-  LastMessage  String  @db.VarChar(200)
-  Users        Users[]
+model NaturalHose {
+  Id               BigInt           @id @default(autoincrement())
+  TitleNaturalHose String           @db.VarChar(200)
+  ServicesId       BigInt
+  Services         Services         @relation(fields: [ServicesId], references: [Id], onUpdate: NoAction, map: "User_NatureHouseId_FK")
+  ShipmentOrders   ShipmentOrders[]
+
+  @@index([ServicesId], map: "User_NatureHouseId_FK")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model Send {
+  Id          BigInt    @id @default(autoincrement())
+  UserId      BigInt?
+  DateSend    DateTime? @db.DateTime(0)
+  CountMesage BigInt?
+}
+
+model Services {
+  Id                BigInt           @id @default(autoincrement())
+  TitleNameServices String           @db.VarChar(200)
+  UserId            BigInt
+  NaturalHose       NaturalHose[]
+  Users             Users            @relation(fields: [UserId], references: [Id], onUpdate: NoAction, map: "User_ServiceId_FK")
+  ShipmentOrders    ShipmentOrders[]
+
+  @@index([UserId], map: "User_ServiceId_FK")
+}
+
+model Sex {
+  Id               BigInt           @id @default(autoincrement())
+  TitleNaturalHose String           @db.VarChar(200)
+  tipeSex          Boolean          @db.Bit(1)
+  ShipmentOrders   ShipmentOrders[]
 }

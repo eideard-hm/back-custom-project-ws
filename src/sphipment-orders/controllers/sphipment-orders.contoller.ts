@@ -13,7 +13,7 @@ export const createShipmentOrders = async (input: ShipmentOrdersCreateInput): Pr
   }
 };
 
-export const getAllShipmentOrdersAsync = async (userId: string): Promise<ShipmentOrders[]> => {
+export const getAllShipmentOrdersAsync = async (userId: number): Promise<ShipmentOrders[]> => {
   try {
     if (!userId) return [];
 

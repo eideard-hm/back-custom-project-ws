@@ -16,7 +16,11 @@ export const loginUser = async (credentials: ILoginData): Promise<ILoginResponse
 
     return {
       loginSuccess: true,
-      userData: { userId: res.Id, fullName: `${res.FirstName} ${res.LastName}`, town: res.DocumentType ?? '' },
+      userData: {
+        userId: Number(res.Id ?? 0),
+        fullName: `${res.FirstName} ${res.LastName}`,
+        town: res.DocumentType ?? '',
+      },
     };
   } catch (error) {
     console.error(error);
@@ -26,5 +30,5 @@ export const loginUser = async (credentials: ILoginData): Promise<ILoginResponse
 
 const badLoginUserResponse = (): ILoginResponse => ({
   loginSuccess: false,
-  userData: { fullName: '', town: '', userId: '' },
+  userData: { fullName: '', town: '', userId: 0 },
 });
