@@ -1,4 +1,4 @@
 export interface INaturalHoseByService {
-  Id: number;
+  Id: number | bigint;
   TitleNaturalHose: string;
 }

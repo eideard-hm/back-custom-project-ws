@@ -34,9 +34,11 @@ export const retrieveAllShipmentOrdersAsync = async (userId: number) => {
       },
       Services: {
         select: {
+          Id: true,
           TitleNameServices: true,
           NaturalHose: {
             select: {
+              Id: true,
               TitleNaturalHose: true,
             },
           },

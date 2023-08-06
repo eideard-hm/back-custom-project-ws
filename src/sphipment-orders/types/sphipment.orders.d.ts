@@ -1,5 +1,7 @@
 import { Prisma } from '@prisma/client';
 
+import type { INaturalHoseByService } from '../../core/types';
+
 export type ShipmentOrdersCreateInput = Prisma.ShipmentOrdersUncheckedCreateInput;
 
 export type ShipmentOrdersCreateResponse = Prisma.Prisma__ShipmentOrdersClient<{
@@ -19,8 +21,9 @@ export interface ShipmentOrdersResponse {
 }
 
 export interface Services {
+  Id: bigint;
   TitleNameServices: string;
-  NaturalHose: unknown[];
+  NaturalHose: INaturalHoseByService[];
 }
 
 export interface Sex {
