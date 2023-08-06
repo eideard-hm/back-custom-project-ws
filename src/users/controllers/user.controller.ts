@@ -1,5 +1,5 @@
 import { prisma } from '../../prisma';
-import { encryptPasswordSync } from '../../utils';
+import { encryptPasswordSync, serializedBigint } from '../../utils';
 import type { UserCreateInput } from '../types';
 
 const hashPassword = (users: UserCreateInput[]): UserCreateInput[] =>
@@ -21,7 +21,8 @@ export const createUser = async (user: UserCreateInput[]): Promise<number> => {
 
 export const getAllUsers = async (): Promise<UserCreateInput[]> => {
   try {
-    return await prisma.users.findMany();
+    const users = await prisma.users.findMany();
+    return serializedBigint(users);
   } catch (error) {
     console.error(error);
     return [];

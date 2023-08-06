@@ -1,3 +1,4 @@
+import { serializedBigint } from '../../utils';
 import { createShipmentOrdersAsync, retrieveAllShipmentOrdersAsync } from '../services';
 import type { ShipmentOrders, ShipmentOrdersCreateInput, ShipmentOrdersCreateResponse } from '../types';
 
@@ -17,7 +18,8 @@ export const getAllShipmentOrdersAsync = async (userId: number): Promise<Shipmen
   try {
     if (!userId) return [];
 
-    return await retrieveAllShipmentOrdersAsync(userId);
+    const response = await retrieveAllShipmentOrdersAsync(userId);
+    return serializedBigint(response);
   } catch (error) {
     console.error(error);
     return [];

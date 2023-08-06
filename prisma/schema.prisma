@@ -8,29 +8,32 @@ datasource db {
 }
 
 model ShipmentOrders {
-  Id           BigInt       @id @unique(map: "IX_ShipmentOrders_Id") @default(autoincrement())
-  FirstName    String       @db.VarChar(200)
-  LastName     String       @db.VarChar(200)
-  Email        String?      @db.VarChar(500)
-  Phone        String?      @db.VarChar(10)
-  HouseId      BigInt?
-  BirthDate    DateTime?    @db.DateTime(0)
-  DocumentType String?      @db.VarChar(5)
-  DocumentId   String?      @db.VarChar(20)
-  SexId        BigInt
-  ServicesId   BigInt
-  Sidewalk     String       @db.VarChar(200)
-  Need         String?      @db.VarChar(200)
-  ModifyUserId BigInt
-  NaturalHose  NaturalHose? @relation(fields: [HouseId], references: [Id], onDelete: Restrict, onUpdate: NoAction, map: "House_From_FK")
-  Services     Services     @relation(fields: [ServicesId], references: [Id], onUpdate: NoAction, map: "ServicesId_FK")
-  Sex          Sex          @relation(fields: [SexId], references: [Id], onUpdate: NoAction, map: "ShipmentOrders_ModifySexId_FK")
-  Users        Users        @relation(fields: [ModifyUserId], references: [Id], onUpdate: NoAction, map: "ShipmentOrders_ModifyUserId_FK")
+  Id                                                       BigInt       @id @unique(map: "IX_ShipmentOrders_Id") @default(autoincrement())
+  FirstName                                                String       @db.VarChar(200)
+  LastName                                                 String       @db.VarChar(200)
+  Email                                                    String?      @db.VarChar(500)
+  Phone                                                    String?      @db.VarChar(10)
+  HouseId                                                  BigInt?
+  BirthDate                                                DateTime?    @db.DateTime(0)
+  DocumentType                                             String?      @db.VarChar(5)
+  DocumentId                                               String?      @db.VarChar(20)
+  SexId                                                    BigInt
+  ServicesId                                               BigInt
+  Sidewalk                                                 String       @db.VarChar(200)
+  Need                                                     String?      @db.VarChar(200)
+  ModifyUserId                                             BigInt
+  EconomicActivity                                         BigInt?
+  NaturalHose                                              NaturalHose? @relation(fields: [HouseId], references: [Id], onDelete: Restrict, onUpdate: NoAction, map: "House_From_FK")
+  Services                                                 Services     @relation(fields: [ServicesId], references: [Id], onUpdate: NoAction, map: "ServicesId_FK")
+  NaturalHose_ShipmentOrders_EconomicActivityToNaturalHose NaturalHose? @relation("ShipmentOrders_EconomicActivityToNaturalHose", fields: [EconomicActivity], references: [Id], onDelete: Restrict, onUpdate: NoAction, map: "ShipmentOrders_ActivityEnomic_FK")
+  Sex                                                      Sex          @relation(fields: [SexId], references: [Id], onUpdate: NoAction, map: "ShipmentOrders_ModifySexId_FK")
+  Users                                                    Users        @relation(fields: [ModifyUserId], references: [Id], onUpdate: NoAction, map: "ShipmentOrders_ModifyUserId_FK")
 
   @@index([ModifyUserId], map: "IX_ShipmentOrders_ModifyUserId")
   @@index([HouseId], map: "House_From_FK")
   @@index([ServicesId], map: "ServicesId_FK")
   @@index([SexId], map: "ShipmentOrders_ModifySexId_FK")
+  @@index([EconomicActivity], map: "ShipmentOrders_ActivityEnomic_FK")
 }
 
 model Users {
@@ -48,11 +51,12 @@ model Users {
 }
 
 model NaturalHose {
-  Id               BigInt           @id @default(autoincrement())
-  TitleNaturalHose String           @db.VarChar(200)
-  ServicesId       BigInt
-  Services         Services         @relation(fields: [ServicesId], references: [Id], onUpdate: NoAction, map: "User_NatureHouseId_FK")
-  ShipmentOrders   ShipmentOrders[]
+  Id                                                          BigInt           @id @default(autoincrement())
+  TitleNaturalHose                                            String           @db.VarChar(200)
+  ServicesId                                                  BigInt
+  Services                                                    Services         @relation(fields: [ServicesId], references: [Id], onUpdate: NoAction, map: "User_NatureHouseId_FK")
+  ShipmentOrders                                              ShipmentOrders[]
+  ShipmentOrders_ShipmentOrders_EconomicActivityToNaturalHose ShipmentOrders[] @relation("ShipmentOrders_EconomicActivityToNaturalHose")
 
   @@index([ServicesId], map: "User_NatureHouseId_FK")
 }
@@ -69,6 +73,7 @@ model Services {
   Id                BigInt           @id @default(autoincrement())
   TitleNameServices String           @db.VarChar(200)
   UserId            BigInt
+  Type              String?          @db.VarChar(3)
   NaturalHose       NaturalHose[]
   Users             Users            @relation(fields: [UserId], references: [Id], onUpdate: NoAction, map: "User_ServiceId_FK")
   ShipmentOrders    ShipmentOrders[]
