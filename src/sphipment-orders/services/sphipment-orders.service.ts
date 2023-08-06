@@ -14,22 +14,34 @@ export const createShipmentOrdersAsync = async (
   return { Id: Number(response.Id) };
 };
 
-export const retrieveAllShipmentOrdersAsync = async(userId: number) => {
+export const retrieveAllShipmentOrdersAsync = async (userId: number) => {
   return await prisma.shipmentOrders.findMany({
     where: {
-      ModifyUserId: userId
+      ModifyUserId: userId,
     },
     select: {
-      Id: false,
-      BirthDate: true,
-      DocumentType: true,
-      Email: true,
       FirstName: true,
       LastName: true,
-      Need: true,
+      Email: true,
       Phone: true,
-      SexId: true,
-      Sidewalk: true
-    }
-  })
-}
+      BirthDate: true,
+      DocumentType: true,
+      Need: true,
+      Sex: {
+        select: {
+          TitleNaturalHose: true,
+        },
+      },
+      Services: {
+        select: {
+          TitleNameServices: true,
+          NaturalHose: {
+            select: {
+              TitleNaturalHose: true,
+            },
+          },
+        },
+      },
+    },
+  });
+};

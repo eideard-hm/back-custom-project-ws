@@ -3,3 +3,8 @@ export interface IService {
   Type: string | null;
   TitleNameServices: string;
 }
+
+export interface IShipmentServices {
+  TitleNameServices: string;
+  NaturalHose: string[];
+}
