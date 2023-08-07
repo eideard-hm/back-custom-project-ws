@@ -29,6 +29,7 @@ export const retrieveAllShipmentOrdersAsync = async (userId: number) => {
       Need: true,
       Sex: {
         select: {
+          Id: true,
           TitleNaturalHose: true,
         },
       },
