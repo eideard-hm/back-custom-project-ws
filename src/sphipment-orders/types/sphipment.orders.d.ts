@@ -15,7 +15,9 @@ export interface ShipmentOrdersResponse {
   Phone: string | null;
   BirthDate: Date | null;
   DocumentType: string | null;
-  Need: string | null;
+  NaturalHose: INaturalHoseByService | null;
+  NaturalHose_ShipmentOrders_EconomicActivityToNaturalHose: INaturalHoseByService | null;
+  EconomicActivity?: string | null;
   Sex: ISex;
   Services: Services;
 }
@@ -23,5 +25,4 @@ export interface ShipmentOrdersResponse {
 export interface Services {
   Id: bigint;
   TitleNameServices: string;
-  NaturalHose: INaturalHoseByService[];
 }

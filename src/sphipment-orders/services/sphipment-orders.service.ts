@@ -26,7 +26,18 @@ export const retrieveAllShipmentOrdersAsync = async (userId: number) => {
       Phone: true,
       BirthDate: true,
       DocumentType: true,
-      Need: true,
+      NaturalHose_ShipmentOrders_EconomicActivityToNaturalHose: {
+        select: {
+          Id: true,
+          TitleNaturalHose: true
+        }
+      },
+      NaturalHose: {
+        select: {
+          Id: true,
+          TitleNaturalHose: true,
+        },
+      },
       Sex: {
         select: {
           Id: true,
@@ -37,12 +48,6 @@ export const retrieveAllShipmentOrdersAsync = async (userId: number) => {
         select: {
           Id: true,
           TitleNameServices: true,
-          NaturalHose: {
-            select: {
-              Id: true,
-              TitleNaturalHose: true,
-            },
-          },
         },
       },
     },
