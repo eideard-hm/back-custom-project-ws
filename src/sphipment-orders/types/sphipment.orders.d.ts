@@ -17,7 +17,7 @@ export interface ShipmentOrdersResponse {
   DocumentType: string | null;
   NaturalHose: INaturalHoseByService | null;
   NaturalHose_ShipmentOrders_EconomicActivityToNaturalHose: INaturalHoseByService | null;
-  EconomicActivity?: string | null;
+  Services_ShipmentOrders_ServiceActivityIdToServices: Services | null;
   Sex: ISex;
   Services: Services;
 }

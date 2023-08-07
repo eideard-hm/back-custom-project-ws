@@ -4,6 +4,6 @@ import { retrieveLocations } from '../../controllers';
 
 const router = Router();
 
-router.get('/:userId', retrieveLocations);
+router.get('/:userId/:serviceCode', retrieveLocations);
 
 export default router;

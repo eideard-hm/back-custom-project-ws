@@ -29,12 +29,6 @@ export const retrieveAllShipmentOrdersAsync = async (userId: number) => {
       NaturalHose_ShipmentOrders_EconomicActivityToNaturalHose: {
         select: {
           Id: true,
-          TitleNaturalHose: true
-        }
-      },
-      NaturalHose: {
-        select: {
-          Id: true,
           TitleNaturalHose: true,
         },
       },
@@ -50,6 +44,18 @@ export const retrieveAllShipmentOrdersAsync = async (userId: number) => {
           TitleNameServices: true,
         },
       },
+      Services_ShipmentOrders_ServiceActivityIdToServices: {
+        select: {
+          Id: true,
+          TitleNameServices: true,
+        },
+      },
+      NaturalHose: {
+        select: {
+          Id: true,
+          TitleNaturalHose: true
+        }
+      }
     },
   });
 };

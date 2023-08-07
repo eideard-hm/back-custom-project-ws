@@ -6,7 +6,9 @@ import { retrieveLocationsService } from '../../services';
 export const retrieveLocations = async (req: Request, res: Response) => {
   try {
     const userId = Number(req.params['userId'] ?? 0);
-    const services = await retrieveLocationsService(userId);
+    const serviceCode = req.params['serviceCode'];
+
+    const services = await retrieveLocationsService(userId, serviceCode);
     const serialized = serializedBigint(services);
     res.send(serialized);
   } catch (error) {
