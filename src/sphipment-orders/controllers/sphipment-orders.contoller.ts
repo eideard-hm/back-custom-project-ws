@@ -6,7 +6,7 @@ export const createShipmentOrders = async (input: ShipmentOrdersCreateInput): Pr
   try {
     if (!input) return { Id: 0 };
 
-    input.BirthDate = new Date(input.BirthDate ?? '').toISOString();
+    input.BirthDate = input.BirthDate ? new Date(input.BirthDate ?? '').toISOString() : null;
     return await createShipmentOrdersAsync(input);
   } catch (error) {
     console.error(error);
