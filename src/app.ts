@@ -27,7 +27,7 @@ app.use('/sphipment-orders', sphipmentOrdersRouter);
 // people location
 app.use('/location', locationRouter);
 
-// natural hose
+// natural hoses
 app.use('/natural-hose', naturalHoseRouter)
 
 // sexs
