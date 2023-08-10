@@ -19,7 +19,11 @@ export const getAllShipmentOrdersAsync = async (userId: number): Promise<Shipmen
     if (!userId) return [];
 
     const response = await retrieveAllShipmentOrdersAsync(userId);
-    return serializedBigint(response);
+    const shipments: ShipmentOrdersResponse[] = response.map((s) => ({
+      ...s,
+      FullName: `${s.FirstName} ${s.LastName}`,
+    }));
+    return serializedBigint(shipments);
   } catch (error) {
     console.error(error);
     return [];
