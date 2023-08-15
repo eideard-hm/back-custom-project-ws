@@ -2,7 +2,7 @@ import cors from 'cors';
 import express from 'express';
 
 import authRouter from './auth/routes/auth.routes';
-import { sexRouter } from './core/routes';
+import { sendRouter, sexRouter } from './core/routes';
 import locationRouter from './core/routes/location/location.routes';
 import naturalHoseRouter from './core/routes/natural-hose/natural-hose.routes';
 import sphipmentOrdersRouter from './sphipment-orders/router/sphipment-orders.router';
@@ -28,9 +28,11 @@ app.use('/sphipment-orders', sphipmentOrdersRouter);
 app.use('/location', locationRouter);
 
 // natural hoses
-app.use('/natural-hose', naturalHoseRouter)
+app.use('/natural-hose', naturalHoseRouter);
 
 // sexs
-app.use('/sex', sexRouter)
+app.use('/sex', sexRouter);
+
+app.use('/send', sendRouter);
 
 export default app;
