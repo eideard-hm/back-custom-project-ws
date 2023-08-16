@@ -1,5 +1,6 @@
 import cors from 'cors';
 import express from 'express';
+import cron from 'node-cron';
 
 import authRouter from './auth/routes/auth.routes';
 import { sendRouter, sexRouter } from './core/routes';
@@ -14,6 +15,11 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
+
+// execute cron
+cron.schedule('0 0 0 * * *', function () {
+  console.log('run every day at 12:00 AM');
+});
 
 // auth routes
 app.use('/auth', authRouter);
