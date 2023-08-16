@@ -33,6 +33,7 @@ app.use('/natural-hose', naturalHoseRouter);
 // sexs
 app.use('/sex', sexRouter);
 
+// send messages
 app.use('/send', sendRouter);
 
 export default app;
