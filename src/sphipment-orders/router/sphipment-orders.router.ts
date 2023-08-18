@@ -1,6 +1,6 @@
 import { Router, type Request, type Response } from 'express';
 
-import { createShipmentOrders, getAllShipmentOrdersAsync } from '../controllers';
+import { createMultiplesShipmentOrders, createShipmentOrders, getAllShipmentOrdersAsync } from '../controllers';
 import type { ShipmentOrdersCreateInput } from '../types';
 
 const router = Router();
@@ -8,6 +8,12 @@ const router = Router();
 router.post('/', async (req: Request, res: Response) => {
   const body = req.body as ShipmentOrdersCreateInput;
   const responseService = await createShipmentOrders(body);
+  res.send(responseService);
+});
+
+router.post('/multiples', async (req: Request, res: Response) => {
+  const body = req.body as ShipmentOrdersCreateInput[];
+  const responseService = await createMultiplesShipmentOrders(body);
   res.send(responseService);
 });
 

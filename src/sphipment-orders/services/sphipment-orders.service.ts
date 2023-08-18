@@ -14,6 +14,17 @@ export const createShipmentOrdersAsync = async (
   return { Id: Number(response.Id) };
 };
 
+export const createMultiplesShipmentOrdersAsync = async (
+  input: ShipmentOrdersCreateInput[],
+): Promise<ShipmentOrdersCreateResponse> => {
+  const { count } = await prisma.shipmentOrders.createMany({
+    data: input,
+    skipDuplicates: true,
+  });
+
+  return { Id: count };
+};
+
 export const retrieveAllShipmentOrdersAsync = async (userId: number) => {
   return await prisma.shipmentOrders.findMany({
     where: {
@@ -53,9 +64,9 @@ export const retrieveAllShipmentOrdersAsync = async (userId: number) => {
       NaturalHose: {
         select: {
           Id: true,
-          TitleNaturalHose: true
-        }
-      }
+          TitleNaturalHose: true,
+        },
+      },
     },
   });
 };
