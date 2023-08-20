@@ -9,6 +9,7 @@ export type ShipmentOrdersCreateResponse = Prisma.Prisma__ShipmentOrdersClient<{
 }>;
 
 export interface ShipmentOrdersResponse {
+  Id: bigint;
   FullName: string;
   Email: string | null;
   Phone: string | null;

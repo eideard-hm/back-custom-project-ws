@@ -31,6 +31,7 @@ export const retrieveAllShipmentOrdersAsync = async (userId: number) => {
       ModifyUserId: userId,
     },
     select: {
+      Id: true,
       FirstName: true,
       LastName: true,
       Email: true,
