@@ -1,24 +1,18 @@
 {
-  "name": "custom-project",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "dev": "ts-node-dev src/main.ts",
-    "start": "node dist/api/main.js",
-    "build": "prisma generate && tsc -p .",
-    "lint": "eslint src/**/*.ts",
-    "format": "eslint src/**/*.ts --fix"
-  },
-  "keywords": [],
   "author": "",
-  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "5.1.0",
+    "bcryptjs": "2.4.3",
+    "cors": "2.8.5",
+    "dotenv": "16.3.1",
+    "express": "4.18.2"
+  },
+  "description": "",
   "devDependencies": {
     "@types/bcryptjs": "2.4.2",
     "@types/cors": "2.8.13",
     "@types/express": "4.17.17",
     "@types/node": "18.17.1",
-    "@types/node-cron": "3.0.8",
     "@typescript-eslint/eslint-plugin": "6.2.1",
     "@typescript-eslint/parser": "6.2.1",
     "eslint": "8.46.0",
@@ -27,11 +21,16 @@
     "ts-node-dev": "2.0.0",
     "typescript": "5.1.6"
   },
-  "dependencies": {
-    "@prisma/client": "5.1.0",
-    "bcryptjs": "2.4.3",
-    "cors": "2.8.5",
-    "dotenv": "16.3.1",
-    "express": "4.18.2"
-  }
+  "keywords": [],
+  "license": "ISC",
+  "main": "index.js",
+  "name": "custom-project",
+  "scripts": {
+    "build": "prisma generate && tsc -p .",
+    "dev": "prisma generate && ts-node-dev src/main.ts",
+    "format": "eslint src/**/*.ts --fix",
+    "lint": "eslint src/**/*.ts",
+    "start": "node dist/api/main.js"
+  },
+  "version": "1.0.0"
 }
