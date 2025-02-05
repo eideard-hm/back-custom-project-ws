@@ -3,40 +3,41 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model ShipmentOrders {
-  Id                                                       BigInt       @id @unique(map: "IX_ShipmentOrders_Id") @default(autoincrement())
-  FirstName                                                String       @db.VarChar(200)
-  LastName                                                 String       @db.VarChar(200)
-  Email                                                    String?      @db.VarChar(500)
-  Phone                                                    String?      @db.VarChar(10)
-  HouseId                                                  BigInt?
-  BirthDate                                                DateTime?    @db.DateTime(0)
-  DocumentType                                             String?      @db.VarChar(5)
-  DocumentId                                               String?      @db.VarChar(20)
-  SexId                                                    BigInt
-  ServicesId                                               BigInt
-  Sidewalk                                                 String       @db.VarChar(200)
-  Need                                                     String?      @db.VarChar(200)
-  ModifyUserId                                             BigInt
-  EconomicActivity                                         BigInt?
-  ServiceActivityId                                        BigInt?
-  NaturalHose                                              NaturalHose? @relation(fields: [HouseId], references: [Id], onDelete: Restrict, onUpdate: NoAction, map: "House_From_FK")
-  Services                                                 Services     @relation(fields: [ServicesId], references: [Id], onUpdate: NoAction, map: "ServicesId_FK")
-  NaturalHose_ShipmentOrders_EconomicActivityToNaturalHose NaturalHose? @relation("ShipmentOrders_EconomicActivityToNaturalHose", fields: [EconomicActivity], references: [Id], onDelete: Restrict, onUpdate: NoAction, map: "ShipmentOrders_ActivityEnomic_FK")
-  Services_ShipmentOrders_ServiceActivityIdToServices      Services?    @relation("ShipmentOrders_ServiceActivityIdToServices", fields: [ServiceActivityId], references: [Id], onDelete: Restrict, onUpdate: NoAction, map: "ShipmentOrders_FK")
-  Sex                                                      Sex          @relation(fields: [SexId], references: [Id], onUpdate: NoAction, map: "ShipmentOrders_ModifySexId_FK")
-  Users                                                    Users        @relation(fields: [ModifyUserId], references: [Id], onUpdate: NoAction, map: "ShipmentOrders_ModifyUserId_FK")
+  Id                BigInt    @id @unique(map: "IX_ShipmentOrders_Id") @default(autoincrement())
+  FirstName         String    @db.VarChar(200)
+  LastName          String    @db.VarChar(200)
+  Email             String?   @db.VarChar(500)
+  Phone             String?   @db.VarChar(10)
+  HouseId           BigInt?
+  BirthDate         DateTime?
+  DocumentType      String?   @db.VarChar(5)
+  DocumentId        String?   @db.VarChar(20)
+  SexId             BigInt
+  ServicesId        BigInt
+  Sidewalk          String    @db.VarChar(200)
+  Need              String?   @db.VarChar(200)
+  ModifyUserId      BigInt
+  EconomicActivity  BigInt?
+  ServiceActivityId BigInt?
+
+  NaturalHose                                              NaturalHose? @relation(fields: [HouseId], references: [Id], onDelete: Restrict, onUpdate: NoAction, map: "FK_House_ShipmentOrders")
+  Services                                                 Services     @relation(fields: [ServicesId], references: [Id], onUpdate: NoAction, map: "FK_Services_ShipmentOrders")
+  NaturalHose_ShipmentOrders_EconomicActivityToNaturalHose NaturalHose? @relation("ShipmentOrders_EconomicActivityToNaturalHose", fields: [EconomicActivity], references: [Id], onDelete: Restrict, onUpdate: NoAction, map: "FK_EconomicActivity_ShipmentOrders")
+  Services_ShipmentOrders_ServiceActivityIdToServices      Services?    @relation("ShipmentOrders_ServiceActivityIdToServices", fields: [ServiceActivityId], references: [Id], onDelete: Restrict, onUpdate: NoAction, map: "FK_ServiceActivity_ShipmentOrders")
+  Sex                                                      Sex          @relation(fields: [SexId], references: [Id], onUpdate: NoAction, map: "FK_Sex_ShipmentOrders")
+  Users                                                    Users        @relation(fields: [ModifyUserId], references: [Id], onUpdate: NoAction, map: "FK_User_ShipmentOrders")
 
   @@index([ModifyUserId], map: "IX_ShipmentOrders_ModifyUserId")
-  @@index([HouseId], map: "House_From_FK")
-  @@index([ServicesId], map: "ServicesId_FK")
-  @@index([SexId], map: "ShipmentOrders_ModifySexId_FK")
-  @@index([EconomicActivity], map: "ShipmentOrders_ActivityEnomic_FK")
-  @@index([ServiceActivityId], map: "ShipmentOrders_FK")
+  @@index([HouseId], map: "IX_House_ShipmentOrders")
+  @@index([ServicesId], map: "IX_Services_ShipmentOrders")
+  @@index([SexId], map: "IX_Sex_ShipmentOrders")
+  @@index([EconomicActivity], map: "IX_EconomicActivity_ShipmentOrders")
+  @@index([ServiceActivityId], map: "IX_ServiceActivity_ShipmentOrders")
 }
 
 model Users {
@@ -47,7 +48,7 @@ model Users {
   Phone          String?          @db.VarChar(10)
   DocumentType   String?          @db.VarChar(20)
   DocumentId     String?          @db.VarChar(20)
-  Active         Boolean          @default(dbgenerated("b'1'")) @db.Bit(1)
+  Active         Boolean          @default(true)
   PasswordHash   String           @db.VarChar(2000)
   Services       Services[]
   ShipmentOrders ShipmentOrders[]
@@ -57,18 +58,17 @@ model NaturalHose {
   Id                                                          BigInt           @id @default(autoincrement())
   TitleNaturalHose                                            String           @db.VarChar(200)
   ServicesId                                                  BigInt
-  Services                                                    Services         @relation(fields: [ServicesId], references: [Id], onUpdate: NoAction, map: "User_NatureHouseId_FK")
+  Services                                                    Services         @relation(fields: [ServicesId], references: [Id], onUpdate: NoAction, map: "FK_Services_NaturalHose")
   ShipmentOrders                                              ShipmentOrders[]
   ShipmentOrders_ShipmentOrders_EconomicActivityToNaturalHose ShipmentOrders[] @relation("ShipmentOrders_EconomicActivityToNaturalHose")
 
-  @@index([ServicesId], map: "User_NatureHouseId_FK")
+  @@index([ServicesId], map: "IX_Services_NaturalHose")
 }
 
-/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model Send {
   Id          BigInt    @id @default(autoincrement())
   UserId      BigInt?
-  DateSend    DateTime? @db.DateTime(0)
+  DateSend    DateTime?
   CountMesage BigInt?
 }
 
@@ -78,16 +78,16 @@ model Services {
   UserId                                                    BigInt
   Type                                                      String?          @db.VarChar(3)
   NaturalHose                                               NaturalHose[]
-  Users                                                     Users            @relation(fields: [UserId], references: [Id], onUpdate: NoAction, map: "User_ServiceId_FK")
+  Users                                                     Users            @relation(fields: [UserId], references: [Id], onUpdate: NoAction, map: "FK_User_Services")
   ShipmentOrders                                            ShipmentOrders[]
   ShipmentOrders_ShipmentOrders_ServiceActivityIdToServices ShipmentOrders[] @relation("ShipmentOrders_ServiceActivityIdToServices")
 
-  @@index([UserId], map: "User_ServiceId_FK")
+  @@index([UserId], map: "IX_User_Services")
 }
 
 model Sex {
   Id               BigInt           @id @default(autoincrement())
   TitleNaturalHose String           @db.VarChar(200)
-  tipeSex          Boolean          @db.Bit(1)
+  tipeSex          Boolean          @db.Boolean
   ShipmentOrders   ShipmentOrders[]
 }
