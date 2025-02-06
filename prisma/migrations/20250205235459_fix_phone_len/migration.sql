@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "ShipmentOrders" ALTER COLUMN "Phone" SET DATA TYPE VARCHAR(20);

@@ -12,7 +12,7 @@ model ShipmentOrders {
   FirstName         String    @db.VarChar(200)
   LastName          String    @db.VarChar(200)
   Email             String?   @db.VarChar(500)
-  Phone             String?   @db.VarChar(10)
+  Phone             String?   @db.VarChar(20)
   HouseId           BigInt?
   BirthDate         DateTime?
   DocumentType      String?   @db.VarChar(5)
