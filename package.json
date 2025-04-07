@@ -30,7 +30,8 @@
     "dev": "prisma generate && ts-node-dev src/main.ts",
     "format": "eslint src/**/*.ts --fix",
     "lint": "eslint src/**/*.ts",
-    "start": "node dist/api/main.js"
+    "start": "node dist/api/main.js",
+    "migrate": "prisma migrate dev --name"
   },
   "version": "1.0.0"
 }
